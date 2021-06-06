@@ -65,10 +65,10 @@ Disassembling ```main()```,
 ```
 pwndbg> disassemble main
 Dump of assembler code for function main:
-   0x00000000004005a4 <+0>:	    push   rbp
-   0x00000000004005a5 <+1>:	    mov    rbp,rsp
-   0x00000000004005a8 <+4>:	    sub    rsp,0x10
-   0x00000000004005ac <+8>:	    mov    DWORD PTR [rbp-0x4],edi
+   0x00000000004005a4 <+0>:	  push   rbp
+   0x00000000004005a5 <+1>:	  mov    rbp,rsp
+   0x00000000004005a8 <+4>:	  sub    rsp,0x10
+   0x00000000004005ac <+8>:	  mov    DWORD PTR [rbp-0x4],edi
    0x00000000004005af <+11>:	mov    QWORD PTR [rbp-0x10],rsi
    0x00000000004005b3 <+15>:	mov    edi,0x400620
    0x00000000004005b8 <+20>:	call   0x400400 <puts@plt>
@@ -87,10 +87,10 @@ Disassembling ```start_level()```,
 ```
 pwndbg> disassemble start_level
 Dump of assembler code for function start_level:
-   0x000000000040058d <+0>:	    push   rbp
-   0x000000000040058e <+1>:	    mov    rbp,rsp
-   0x0000000000400591 <+4>:	    add    rsp,0xffffffffffffff80
-   0x0000000000400595 <+8>:	    lea    rax,[rbp-0x80]
+   0x000000000040058d <+0>:	  push   rbp
+   0x000000000040058e <+1>:	  mov    rbp,rsp
+   0x0000000000400591 <+4>:	  add    rsp,0xffffffffffffff80
+   0x0000000000400595 <+8>:	  lea    rax,[rbp-0x80]
    0x0000000000400599 <+12>:	mov    rdi,rax
    0x000000000040059c <+15>:	call   0x4003f0 <gets@plt>
    0x00000000004005a1 <+20>:	nop
@@ -155,14 +155,14 @@ So we are able to crash our binary
 
 We will analyse it further in our debugger
 
-Inorder to pass a shellcode and execute is successfully, we must point our ```$rip``` return address correctly to the address where shellcode is placed
+Inorder to pass a shellcode and execute it successfully, we must point our ```$rip``` return address correctly to the address where shellcode is placed
 
 Here we will be passing shellcode into our ```buffer```
 
 So we need to know the starting address of the ```buffer```
 
 ```
-   0x0000000000400595 <+8>:	    lea    rax,[rbp-0x80]
+   0x0000000000400595 <+8>:	  lea    rax,[rbp-0x80]
    0x0000000000400599 <+12>:	mov    rdi,rax
    0x000000000040059c <+15>:	call   0x4003f0 <gets@plt>
 ```
@@ -174,10 +174,10 @@ Setting breakpoint,
 ```
 (gdb) disassemble start_level
 Dump of assembler code for function start_level:
-   0x000000000040058d <+0>:	    push   rbp
-   0x000000000040058e <+1>:	    mov    rbp,rsp
-   0x0000000000400591 <+4>:	    add    rsp,0xffffffffffffff80
-   0x0000000000400595 <+8>:	    lea    rax,[rbp-0x80]
+   0x000000000040058d <+0>:	  push   rbp
+   0x000000000040058e <+1>:	  mov    rbp,rsp
+   0x0000000000400591 <+4>:	  add    rsp,0xffffffffffffff80
+   0x0000000000400595 <+8>:	  lea    rax,[rbp-0x80]
    0x0000000000400599 <+12>:	mov    rdi,rax
    0x000000000040059c <+15>:	call   0x4003f0 <gets@plt>
    0x00000000004005a1 <+20>:	nop
@@ -213,7 +213,7 @@ To pop a shell, we will be using the 27 bytes shellcode below,
 
 Lets exploit the binary now,
 
-```payload = junk(nops) + shellcode + junk + base pointer (nops) + return address```
+```payload = junk(nops) + shellcode + junk + base pointer + return address```
 
 Here "nops" is referred as "No Operation" , and it is given by ```\x90```
 
